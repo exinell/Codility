@@ -1,0 +1,43 @@
+            if (total(juice) <= max(capacity))
+            {
+                return juice.Length;
+            }
+            
+            List<int> a = new List<int>();
+            int EspacioVasoGrande = -1;
+            int EspacioSegundoVaso = -1;
+            int JugoMezclado = -1;
+
+            for (int i = 0; i < juice.Length; i++)
+            {
+                int espacio = capacity[i] - juice[i];
+                if (espacio > EspacioVasoGrande)
+                {
+                    EspacioVasoGrande = espacio;
+                    JugoMezclado = juice[i];
+                }
+                else if (espacio == EspacioVasoGrande && JugoMezclado < juice[i])
+                {
+                    JugoMezclado = juice[i];
+                }
+                else
+                {
+                    if (espacio > EspacioSegundoVaso)
+                        EspacioSegundoVaso = espacio;
+                }
+            }
+            int index = -1;
+            index = Array.IndexOf(juice, JugoMezclado);
+            juice = juice.Where((val, idx) => idx != index).ToArray();
+            juice = juice.OrderBy(i => i).ToArray();
+            int count = 0;
+            int temp = 0;
+            while (temp <= EspacioVasoGrande && juice.Length > 0)
+            {
+                temp += juice[count];
+                count++;
+            }
+
+            if (EspacioSegundoVaso >= JugoMezclado && count == 1)
+                return 2;
+                return count;

@@ -1,0 +1,51 @@
+int N = 26;
+int[] primes = Sieve(N);
+int[] wav = new int[N + 1];
+for (int i = 1; i < N+1; i++)            
+{            
+     int counter = semiprime(primes, i) == false ? 0 : 1;          
+     wav[i] = wav[i-1] + counter;
+}
+List<int> result = new List<int>();
+for (int i = 0; i < A.Length; i++)
+{
+     result.Add(wav[B[i]] - wav[A[i] - 1]);
+}
+int[] res = result.ToArray();
+
+private bool semiprime(int[] factors, int N)
+        {
+            if(factors[N]!=0)
+                for (int i = ((int)(Math.Pow(N,0.5))+1); i > 1; i--)
+                {
+                    if(N%i==0)
+                    {
+                        return ((factors[N/i] == 0) && (factors[i] == 0));
+                    }
+                }
+            return false;
+        }
+        private int[] Sieve(int N)
+        {
+            int[] factors = new int[N+1];
+            int i = 2;
+            int i2 = i * i;
+            while (i2 <= N)
+            {
+                if (factors[i] == 0)
+                {
+                    int K = i2;
+                    while (K<=N)
+                    {
+                        if(factors[K] == 0)
+                        {
+                            factors[K] = i;
+                        }
+                        K += i;
+                    }
+                }
+                i += 1;
+                i2 = i * i;
+            }
+            return factors;
+        }
